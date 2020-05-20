@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario'));
-
+//CONFIGURACION RUTAS
+app.use(require('./routes/index'));
 
 //CONFIGURACIONES MONGO
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
@@ -22,6 +22,7 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: tru
     console.log('Base de datos Online');
 });
 
+//ESCUCHA DEL PUERTO
 app.listen(process.env.PORT, () => {
     console.log('Escuchando en Puerto:', process.env.PORT);
 })

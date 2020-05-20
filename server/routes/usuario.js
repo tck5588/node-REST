@@ -4,12 +4,22 @@ const mongoose = require('mongoose');
 const Usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/auth');
 
-//OBTENER REGISTROS
-app.get('/usuario', function(req, res) {
+//OBTENER REGISTROS CON VERIFICACION TOKEN
+app.get('/usuario', [verificaToken], function(req, res) {
     // res.json('get Usuario LOCAL!')
-    //PAGINACION
 
+
+    //INFORMACION DEL USUARIO VALIDO QUE YA PASO POR EL VERIFICA TOKEN
+    return res.json({
+        usuario: req.usuario,
+        nombre: req.usuario.nombre,
+        email: req.usuario.email
+
+    })
+
+    //PAGINACION Y BUSQUEDA
     let estado = {
         estado: true
     }
@@ -60,7 +70,7 @@ app.get('/usuario', function(req, res) {
 })
 
 //CREAR REGISTROS
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let body = req.body;
 
@@ -113,7 +123,7 @@ app.post('/usuario', function(req, res) {
 })
 
 //ACTUALIZAR REGISTROS
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     //obtencion de parametro por peticion HTTP
     let id = req.params.id;
@@ -139,7 +149,7 @@ app.put('/usuario/:id', function(req, res) {
 })
 
 //BORRAR REGISTROS
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     // res.json('delete Usuario')
 
     let id = req.params.id; //OBTENCION DEL ID
@@ -175,12 +185,6 @@ app.delete('/usuario/:id', function(req, res) {
         })
 
     })
-
-
-
-
-
-
 
 
 })
