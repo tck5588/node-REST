@@ -1,6 +1,6 @@
 
 /node_modules
 datos mogo atlas.txt
-/uploads/usuarios/*
-/uploads/productos/*
+**/usuarios/*
+**/productos/*
 /tmp
