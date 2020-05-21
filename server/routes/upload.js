@@ -65,6 +65,23 @@ app.put('/upload/:tipo/:id', function(req, res) {
     //CABIO DE NOMBRE DEL ARCHIVO
     let nombreArchivo = `${id}-${new Date().getMilliseconds()}.${extension}`;
 
+    //=======================================================================================
+    //VERIFICACION SI EXISTE EL PATH -- SE CREA
+    //=======================================================================================
+    let pathPrincipal = `uploads/${tipo}/`;
+
+    console.log(pathPrincipal)
+
+    if (!fs.existsSync(pathPrincipal)) {
+
+        //SI NO EXISTE PATH PRINCIPAL
+        if (!fs.existsSync(`uploads/`)) {
+            //SE CREA
+            fs.mkdirSync(`uploads/`);
+        }
+        //PATH FINAL SE CREA
+        fs.mkdirSync(`uploads/${tipo}/`);
+    }
 
     //==================================================================
     //SUBIDA DEL ARCHIVO A LA RUTA 
@@ -222,6 +239,8 @@ function imagenProducto(id, res, nombreArchivo) {
 function borraArchivo(nombreImagen, tipo) {
 
     let pathImagen = path.resolve(__dirname, `../../uploads/${tipo}/${nombreImagen}`);
+
+
 
     if (fs.existsSync(pathImagen) && nombreImagen) {
         fs.unlinkSync(pathImagen);
