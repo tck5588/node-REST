@@ -7,7 +7,7 @@ const _ = require('underscore');
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/auth');
 
 //OBTENER REGISTROS CON VERIFICACION TOKEN
-app.get('/usuario', [verificaToken], function(req, res) {
+app.get('/usuario', verificaToken, function(req, res) {
     // res.json('get Usuario LOCAL!')
 
 
